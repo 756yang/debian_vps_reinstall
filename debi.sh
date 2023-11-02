@@ -218,6 +218,7 @@ force_gpt=true
 efi=
 esp=106
 filesystem=ext4
+swap=
 kernel=
 cloud_kernel=false
 bpo_kernel=false
@@ -375,6 +376,10 @@ while [ $# -gt 0 ]; do
             ;;
         --filesystem)
             filesystem=$2
+            shift
+            ;;
+        --swap)
+            swap=$2
             shift
             ;;
         --kernel)
@@ -751,6 +756,16 @@ EOF
             mountpoint{ / } \
         .
 EOF
+
+    if [ -n "$swap" ]; then
+        $save_preseed << EOF
+        64 512 $swap linux-swap \
+            method{ swap } \
+            format{ } \
+        .
+EOF
+    fi
+
     if [ "$efi" = true ]; then
         echo 'd-i partman-efi/non_efi_system boolean true' | $save_preseed
     fi
