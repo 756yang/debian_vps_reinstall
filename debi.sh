@@ -749,7 +749,7 @@ EOF
 
     if [ -n "$swap" ]; then
         $save_preseed << EOF
-        64 512 $swap linux-swap \\
+        $swap 8192 $swap linux-swap \\
             method{ swap } \\
             format{ } \\
         . \\
