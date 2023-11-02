@@ -770,9 +770,12 @@ EOF
         echo 'd-i partman-efi/non_efi_system boolean true' | $save_preseed
     fi
 
+    if [ -z "$swap" ]; then
+        echo 'd-i partman-basicfilesystems/no_swap boolean false' | $save_preseed
+    fi
+
     $save_preseed << 'EOF'
 d-i partman-auto/choose_recipe select naive
-d-i partman-basicfilesystems/no_swap boolean false
 d-i partman-partitioning/confirm_write_new_label boolean true
 d-i partman/choose_partition select finish
 d-i partman/confirm boolean true
